@@ -1,0 +1,225 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login - Little Lemon</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Karla&family=Markazi+Text:wght@500&display=swap" rel="stylesheet" />
+
+    <style>
+      /* الستايل الموحد بناءً على ملفات base.html و about.html */
+      body {
+        font-family: 'Karla', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      /* هيدر بسيط يشبه الموجود في المشروع */
+      header {
+        background-color: #EDEFEE;
+        padding: 10px 2rem;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+      }
+
+      header img { height: 40px; }
+
+      h1, h2 {
+        font-family: 'Markazi Text', serif;
+        color: #495E57; /* اللون الأخضر الخاص بـ Little Lemon */
+        font-size: 2.5rem;
+      }
+
+      main {
+        padding: 3rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex: 1;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: center;
+      }
+
+      .column { flex: 1; min-width: 320px; }
+
+      /* تنسيق الفورم */
+      .login-card {
+        background: #fdfdfd;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+
+      form p { margin-bottom: 1.2rem; }
+
+      label { display: block; font-weight: bold; margin-bottom: 5px; color: #495E57; }
+
+      input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #495E57;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+
+      /* زر تسجيل الدخول (الأصفر المعتمد في المشروع) */
+      #button {
+        background-color: #F4CE14; 
+        color: #495E57;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1.1rem;
+        width: 100%;
+        transition: 0.3s;
+      }
+
+      #button:hover {
+        background-color: #495E57;
+        color: #EDEFEE;
+      }
+
+      .extra-links {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        text-align: center;
+      }
+
+      .extra-links a { color: #495E57; text-decoration: underline; }
+
+      /* تنسيق الصورة */
+      .figure img {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 10px 10px 10px #495E57; /* ظل أصفر جمالي */
+      }
+
+      .alert-message {
+        background-color: #495E57; /* اللون الأخضر الخاص بالمطعم */
+        color: #F4CE14;            /* اللون الأصفر للنص */
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+        border: 1px solid #F4CE14;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      }
+
+      footer {
+        background-color: #495E57;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <img src="{% static 'img/logo.png' %}" alt="Little Lemon Logo">
+    </header>
+
+    <main>
+      <section>
+        <article>
+          <div class="row">
+            
+            <div class="column">
+              <div class="login-card">
+                {% if messages %}
+                  <div id="message-container">
+                    {% for message in messages %}
+                      <div class="alert-message">
+                        {{ message }}
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                <h1>Welcome Back</h1>
+                <p>Login to manage your reservations at <strong>Little Lemon</strong>.</p>
+                
+                <form action="{% url 'login' %}" method="post">
+                  {% csrf_token %}
+                  <p>
+                    <label for="id_username">Username</label>
+                    <input type="text" name="username" id="id_username" required placeholder="Enter your username">
+                  </p>
+                  <p>
+                    <label for="id_password">Password</label>
+                    <input type="password" name="password" id="id_password" required placeholder="Enter your password">
+                  </p>
+                  
+                  <button type="submit">Get Token</button>                
+                </form>
+                <hr>
+
+                {% if display_token %}
+                  <div class="token-box" style="border: 2px solid #495E57; padding: 15px; margin-top: 20px;">
+                      <p>Login Successful! Here is your secure token:</p>
+                      <code>{{ display_token }}</code>
+                  </div>
+                  
+                  <script>
+                      localStorage.setItem('userToken', "{{ display_token }}");
+                      alert("Success! You can now use this token to access home page data.");
+                  </script>
+                {% endif %}
+
+                <div class="extra-links">
+                  <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <figure class="figure">
+                <img src="{% static 'img/login.jpg' %}" alt="Little Lemon Kitchen" />
+                <figcaption class="figure-caption" style="text-align: center; margin-top: 15px; font-style: italic;">
+                  "Experience the authentic Mediterranean taste."
+                </figcaption>
+              </figure>
+            </div>
+
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Little Lemon Restaurant. All Rights Reserved.</p>
+    </footer>
+    <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+          const messageContainer = document.getElementById('message-container');
+          
+          if (messageContainer) {
+              setTimeout(function() {
+                  messageContainer.style.transition = "opacity 0.5s ease";
+                  messageContainer.style.opacity = "0";
+                  
+                  setTimeout(function() {
+                      messageContainer.remove();
+                  }, 500); 
+              }, 3000);
+          }
+      });
+    </script>
+  </body>
+</html>

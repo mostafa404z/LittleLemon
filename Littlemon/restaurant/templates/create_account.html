@@ -1,0 +1,190 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Account - Little Lemon</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Karla&family=Markazi+Text:wght@500&display=swap" rel="stylesheet" />
+
+    <style>
+      /* الستايل الموحد بناءً على ملفات base.html و about.html */
+      body {
+        font-family: 'Karla', sans-serif;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+
+      header {
+        background-color: #EDEFEE;
+        padding: 10px 2rem;
+        text-align: center;
+        border-bottom: 1px solid #ccc;
+      }
+
+      header img { height: 40px; }
+
+      h1 {
+        font-family: 'Markazi Text', serif;
+        color: #495E57; /* اللون الأخضر الخاص بـ Little Lemon */
+        font-size: 2.5rem;
+        margin-top: 0;
+      }
+
+      main {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex: 1;
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        align-items: flex-start;
+      }
+
+      .column { flex: 1; min-width: 320px; }
+
+      /* تنسيق البطاقة والفورم */
+      .register-card {
+        background: #fdfdfd;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      }
+
+      form p { margin-bottom: 1rem; }
+
+      label { display: block; font-weight: bold; margin-bottom: 5px; color: #495E57; }
+
+      input[type="text"], 
+      input[type="email"], 
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #495E57;
+        border-radius: 8px;
+        box-sizing: border-box;
+      }
+
+      /* زر الإنشاء (الأصفر المعتمد في المشروع) */
+      #button {
+        background-color: #F4CE14; 
+        color: #495E57;
+        padding: 12px 30px;
+        border: none;
+        border-radius: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 1.1rem;
+        width: 100%;
+        margin-top: 10px;
+        transition: 0.3s;
+      }
+
+      #button:hover {
+        background-color: #495E57;
+        color: #EDEFEE;
+      }
+
+      .login-link {
+        margin-top: 1.5rem;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+
+      .login-link a { color: #495E57; font-weight: bold; }
+
+      /* تنسيق الصورة بناءً على about.html */
+      .figure img {
+        width: 100%;
+        border-radius: 20px;
+        height: auto;
+      }
+
+      footer {
+        background-color: #495E57;
+        color: white;
+        text-align: center;
+        padding: 1rem;
+        margin-top: 2rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <img src="{% static 'img/logo.png' %}" alt="Little Lemon Logo">
+    </header>
+
+    <main>
+      <section>
+        <article>
+          <div class="row">
+            
+            <div class="column">
+              <div class="register-card">
+
+                <h1>Create Account</h1>
+                <p>Join Little Lemon to enjoy a personalized dining experience.</p>
+                
+                <form action="{% url 'register' %}" method="POST">
+                    {% csrf_token %}
+                    <p>
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" id="first_name" required placeholder="Enter your first name">
+                    </p>
+                    
+                    <p>
+                        <label for="email">Email Address</label>
+                        <input type="email" name="email" id="email" required placeholder="Enter your email">
+                    </p>
+
+                    <p>
+                        <label for="username">Username</label>
+                        <input type="text" name="username" id="username" required placeholder="Choose a username">
+                    </p>
+                    
+                    <p>
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" required placeholder="Create a password">
+                    </p>
+                    
+                    <input type="submit" id="button" value="Sign Up">
+                </form>
+
+                <div class="login-link">
+                  <p>Already have an account? <a href="{% url 'login' %}">Log in here</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="column">
+              <figure class="figure">
+                <img src="{% static 'img/Mario_and_Adrian.jpg' %}" alt="Mario and Adrian" />
+                <figcaption class="figure-caption" style="text-align: center; margin-top: 15px; font-style: italic;">
+                  "Join our family and taste the tradition."
+                </figcaption>
+              </figure>
+            </div>
+
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 Little Lemon Restaurant. All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>
