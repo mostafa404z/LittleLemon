@@ -1,19 +1,59 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1>Menu</h1>
-<!--Begin col-->
-<div class="column">
-    {% for item in menu.menu %}
-    <p>
-        <a href="{% url 'menu_item' pk=item.pk %}">
-            {{ item.name }}
-            </a>
-        <span class="menu-price">
-            ${{ item.price }}.00
-        </span>
-    </p>
+
+
+<h1 class="menu-title">Our Menu</h1>
+<div class="category-filter">
+    <a href="{% url 'menu' %}" class="cat-btn {% if not request.GET.category %}active{% endif %}">
+        All
+    </a>
+    {% for cat in categories %}
+        <a href="{% url 'menu' %}?category={{ cat.name }}" 
+            class="cat-btn {% if request.GET.category == cat.name %}active{% endif %}">
+            {{ cat.name }}
+        </a>
     {% endfor %}
 </div>
-<!--End col-->
+<section class="menu-section">
+    <div class="menu-grid">
+        {% for category in categories %}
+            {% if not selected_category or category.name == selected_category %}
+
+                <p class="category-title">{{ category.name }}</p>
+                {% for item in menu_items %}
+                    {% if item.category.name == category.name %}
+                        <div class="menu-card">
+                            <div class="card-image">
+                                {% if item.image_url %}
+                                    <img src="{% if 'http' in item.image_url %}{{ item.image_url }}{% else %}{% get_static_prefix %}{{ item.image_url }}{% endif %}" alt="{{ item.title }}">
+                                {% else %}
+                                    <img src="{% static 'img/default-food.jpg' %}" alt="Food">
+                                {% endif %}
+                                <span class="price-tag">${{ item.price }}</span>
+                            </div>
+                            <div class="card-content">
+                                <h3>{{ item.title }}</h3>
+                                <p class="category-label">{{ item.category.name }}</p>
+                                <div class="card-footer">
+                                    {% if item.inventory %}
+                                        <span class="status in-stock">● In Stock</span>
+                                    {% else %}
+                                        <span class="status out-of-stock">● Out of Stock</span>
+                                    {% endif %}
+                                    {% comment %} <button class="order-mini-btn">Add +</button> {% endcomment %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if item == null %}
+                        <p class="no-items">No items found in this category.</p>
+                    {% endif %}
+                {% endfor %}
+                <hr>
+
+            {% endif %} 
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

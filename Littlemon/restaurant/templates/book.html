@@ -2,42 +2,77 @@
 {% load static %}
 
 {% block content %}
+
 <section>
   <article>
-    <h1>Make a reservation</h1>
+    <h1 class="book-title">Make a reservation</h1>
     <!--Begin row-->
     <div class="row">
       <!--Begin col-->
-      <div class="column">
-          {% csrf_token %}
-          <form method="POST" id="form">
-            <!-- {% csrf_token %} -->
-            <p>
-              <label for="first_name">Name:</label>
-              <input type="text" placeholder="Your Name" maxlength="200" required="" id="first_name">
+        <div class="column">
+            {% if messages %}
+            <div class="messages-container">
+                {% for message in messages %}
+                    <div style="padding: 10px; margin-bottom: 10px; border-radius: 5px; 
+                        {% if message.tags == 'error' %} background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb;
+                        {% elif message.tags == 'success' %} background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;
+                        {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% comment %} {% csrf_token %} {% endcomment %}
+            <form method="POST" id="form">
+                {% csrf_token %} 
+                <p>
+                <label for="first_name" >Name:</label>
+                <input type="text"  name ="name" class="book-form" placeholder="Your Name" maxlength="200" required id="first_name">
+                </p>
+                <p>
+                <label for="n_o_guset" >Number of guest:</label>
+                <input type="number" required class="book-form" name ="n_o_guset" id="n_o_guset" min ="1" value="1" max ="30">
+                </p> 
+                <p>
+                <label for="reservation_date" >Reservation date:</label>
+                <input type="date" required class="book-form" name ="res_date" id="reservation_date">
+                </p>
+                <p>
+                <label for="reservation_slot" >Reservation time:</label>
+                <select id="reservation_slot" class="book-form" name ="reservation_slot">
+                    <option value="10">10 am</option>
+                    <option value="11">11 am</option>
+                    <option value="12">12 pm</option>
+                    <option value="13">1 pm</option>
+                    <option value="14">2 pm</option>
+                    <option value="15">3 pm</option>
+                    <option value="16">4 pm</option>
+                    <option value="17">5 pm</option>
+                    <option value="18">6 pm</option>
+                    <option value="19">7 pm</option>
+                    <option value="20">8 pm</option>
+                    <option value="21">9 pm</option>
+                    <option value="22">10 pm</option>
+                    <option value="23">11 pm</option>
+                    <option value="24">12 pm</option>
+                </select>           
             </p>
-            <p>
-              <label for="reservation_date">Reservation date:</label>
-              <input type="date" required="" id="reservation_date">
-            </p>
-            <p>
-              <label for="reservation_slot">Reservation time:</label>
-              <select id="reservation_slot">
-                <option value="0" disabled>Select time</option>
-              </select>
-            </p>
-            <button type="button" id="button">Reserve</button>
-          </form>
-      </div>
+                <button type="submit" class ="book-button">Reserve</button>
+            </form>
+        </div>
       <!--End col-->
 
       <!--Begin col-->
-      <div class="column">
-        <h2>Bookings For <span id="today"></span></h2>
-        <div id="bookings">
+        <div class="column">
+            <h2 class="date_of_book">Bookings For <span id="today"></span></h2>
+            <div id="bookings">
+            </div>
+            <div class="figure_book">
+                <img src="{% static 'img/book_img.jpg' %}" alt="Little Lemon Kitchen" />
+            </div>
+
         </div>
-      </div>
-      <!--End col-->
+        <!--End col-->
     </div>
     <!--End row-->
 
@@ -47,76 +82,83 @@
   </article>
 </section>
 <script>
+    const date = new Date()
+    document.getElementById('reservation_date').value = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`
 
-  const date = new Date()
-  document.getElementById('reservation_date').value = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate().toString().padStart(2, "0")}`
+    getBookings()
 
-  console.log(document.getElementById('reservation_date').value)
-  getBookings()
-
-
-  /*  Step 10: Part two */
-  document.getElementById('reservation_date').addEventListener('change', function() {
-  getBookings();});
-
-  function getBookings() {
-    let reserved_slots = []
-    const date = document.getElementById('reservation_date').value
-    document.getElementById('today').innerHTML = date
-    
-    fetch("{% url 'bookings' %}" + '?date=' + date)
-      .then(r => r.json())
-      .then(data => {
-        reserved_slots = []
-        bookings = ''
-        
-        /* Step 11: Part three */
-        for (const item of data) {
-          console.log(item.fields);
-          reserved_slots.push(item.fields.reservation_slot);
-          bookings += `<p>${item.fields.first_name} - ${formatTime(item.fields.reservation_slot)}</p>`;
+    setTimeout(function() {
+        var messages = document.querySelector('.messages-container');
+        if (messages) {
+            messages.style.transition = "opacity 0.5s ease";
+            messages.style.opacity = "0";
+            setTimeout(function() {
+                messages.remove();
+            }, 500);
         }
+    }, 5000);
 
-        /* Step 12: Part four  */
-        let slot_options = '<option value="0" disabled>Select time</option>';
-        for (let i = 11; i < 20; i++) {
-          const label = formatTime(i);
-          if (reserved_slots.includes(i)) {
-            slot_options += `<option value=${i} disabled>${label}</option>`;
-          } else {
-            slot_options += `<option value=${i}>${label}</option>`;
-          }
-        }
-        
-        document.getElementById('reservation_slot').innerHTML = slot_options
-        if(bookings==''){
-          bookings = "No bookings"
-        }
-        document.getElementById('bookings').innerHTML = bookings
-      })
-  }
+    document.getElementById('reservation_date').addEventListener('change', function() {
+        getBookings();
+    });
 
-  function formatTime(time) {
-    const ampm = time < 12 ? 'AM' : 'PM'
-    const t = time < 12 ? time : time > 12 ? time - 12 : time
-    const label = `${t} ${ampm}`
-    return label
-  }
+    function getBookings() {
+        let reserved_slots = []
+        const date = document.getElementById('reservation_date').value
+        document.getElementById('today').innerHTML = date
 
+        fetch("{% url 'reservations' %}" + '?date=' + date)
+            .then(r => r.json())
+            .then(data => {
+                reserved_slots = []
+                bookings = ''
 
-  document.getElementById('button').addEventListener('click', function (e) {
-    const formdata = {
-      first_name: document.getElementById('first_name').value,
-      reservation_date: document.getElementById('reservation_date').value,
-      reservation_slot: document.getElementById('reservation_slot').value,
+                for (const item of data) {
+                    reserved_slots.push(item.fields.reservation_slot);
+                    bookings += `<p>${item.fields.first_name} - ${formatTime(item.fields.reservation_slot)}</p>`;
+                }
+
+                let slot_options = '<option value="0" disabled>Select time</option>';
+                for (let i = 11; i < 20; i++) {
+                    const label = formatTime(i);
+                    if (reserved_slots.includes(i)) {
+                        slot_options += `<option value=${i} disabled>${label}</option>`;
+                    } else {
+                        slot_options += `<option value=${i}>${label}</option>`;
+                    }
+                }
+
+                document.getElementById('reservation_slot').innerHTML = slot_options
+                if (bookings == '') {
+                    bookings = "No bookings"
+                }
+                document.getElementById('bookings').innerHTML = bookings
+            })
     }
 
-    fetch("{% url 'bookings' %}", { method: 'post', body: JSON.stringify(formdata) })
-      .then(r => r.text())
-      .then(data => {
-        getBookings()
-      })
-  })
+    function formatTime(time) {
+        const ampm = time < 12 ? 'AM' : 'PM'
+        const t = time < 12 ? time : time > 12 ? time - 12 : time
+        const label = `${t} ${ampm}`
+        return label
+    }
+
+    document.getElementById('button').addEventListener('click', function(e) {
+        const formdata = {
+            first_name: document.getElementById('first_name').value,
+            reservation_date: document.getElementById('reservation_date').value,
+            reservation_slot: document.getElementById('reservation_slot').value,
+        }
+
+        fetch("{% url 'reservations' %}", {
+                method: 'post',
+                body: JSON.stringify(formdata)
+            })
+            .then(r => r.text())
+            .then(data => {
+                getBookings()
+            })
+    })
 </script>
 {% endblock %}
 

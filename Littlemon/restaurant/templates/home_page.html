@@ -8,41 +8,52 @@
       <p>
         30% Off This Weekend 
       </p>
-      <a href="{% url 'book' %}" class="cta"> Book now </a>
+      <form action="{% url 'book' %}" method="get">
+        <button id="btn"> Book now </button>
+      </form>
+      <!-- <a href="{% url 'book' %}" class="cta"> Book now </a> -->
     </article>
   </section>
-  <section>
-    <article>
-      <h2>Our New Menu</h2>
-      <img src="{% static 'img/grill.jpg' %}">
-      <p>
-        Our menu consists of 12-15 seasonal items based on Italian, Greek, and Turkish culture.
-      </p>
-      <p>
-        <a href="{% url 'menu' %}">See our new menu</a>
-      </p>
-    </article>
-    <article>
-      <h2>Book a table</h2>
-      <img src="{% static 'img/salad.jpg' %}">
-      <p>
-        Reserve your table for an Italian, Greek, and Turkish dining experience.
-      </p>
-      <p>
-        <a href="{% url 'book' %}">Book your table now</a>
-      </p>
-    </article>
-    <article>
-      <h2>Opening Hours</h2>
-      <img src="{% static 'img/head_chef.jpg' %}">
-      <p>
-        The Little Lemon Restaurant is open 7 days a week, except for public holidays. 
-      </p>
-      <ul>
-        <li>Mon - Fri: 2pm - 10pm</li>
-        <li>Sat: 2pm - 11pm</li>
-        <li>Sun: 2pm - 9pm</li>
-      </ul>
-    </article>
-  </section>
+ <section class="axon-articles-section">
+    <div class="articles-container">
+        
+        <article class="info-card">
+            <div class="card-image">
+                <img src="{% static 'img/home_page_menu.jpg' %}" alt="Our Menu">
+            </div>
+            <div class="card-content">
+                <h2>Our New Menu</h2>
+                <p>Our menu consists of 12-15 seasonal items based on Italian, Greek, and Turkish culture.</p>
+                <a href="{% url 'menu' %}" class="card-link">See our new menu</a>
+            </div>
+        </article>
+
+        <article class="info-card">
+            <div class="card-image">
+                <img src="{% static 'img/home_page_book_table.jpg' %}" alt="Book a table">
+            </div>
+            <div class="card-content">
+                <h2>Book a table</h2>
+                <p>Reserve your table for an Italian, Greek, and Turkish dining experience.</p>
+                <a href="{% url 'book' %}" class="card-link">Book your table now</a>
+            </div>
+        </article>
+
+        <article class="info-card">
+            <div class="card-image">
+                <img src="{% static 'img/home_page_open.jpg' %}" alt="Opening Hours">
+            </div>
+            <div class="card-content">
+                <h2>Opening Hours</h2>
+                <p>The Little Lemon Restaurant is open 7 days a week, except for public holidays.</p>
+                <ul class="hours-list">
+                    <li><span>Mon - Fri:</span> 2pm - 10pm</li>
+                    <li><span>Sat:</span> 2pm - 11pm</li>
+                    <li><span>Sun:</span> 2pm - 9pm</li>
+                </ul>
+            </div>
+        </article>
+
+    </div>
+</section>
 {% endblock %}

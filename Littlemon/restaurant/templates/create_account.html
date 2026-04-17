@@ -3,16 +3,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+        <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'img/main_icon.png' %}"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Create Account - Little Lemon</title>
+    <title>Create Account - AXON</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Karla&family=Markazi+Text:wght@500&display=swap" rel="stylesheet" />
 
     <style>
-      /* الستايل الموحد بناءً على ملفات base.html و about.html */
       body {
         font-family: 'Karla', sans-serif;
         margin: 0;
@@ -24,17 +28,24 @@
       }
 
       header {
+        width: 100%;
+        height: 120px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: #EDEFEE;
-        padding: 10px 2rem;
-        text-align: center;
-        border-bottom: 1px solid #ccc;
       }
 
-      header img { height: 40px; }
+      header img {     
+        height: 80px;
+        width: auto;
+        display: block;
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      }
 
       h1 {
         font-family: 'Markazi Text', serif;
-        color: #495E57; /* اللون الأخضر الخاص بـ Little Lemon */
+        color: #495E57;
         font-size: 2.5rem;
         margin-top: 0;
       }
@@ -53,9 +64,14 @@
         align-items: flex-start;
       }
 
-      .column { flex: 1; min-width: 320px; }
-
-      /* تنسيق البطاقة والفورم */
+      .column {
+        flex: 1;
+        min-width: 320px;
+        display: flex;
+        flex-direction: column;   
+        justify-content: center; 
+        align-items: center;      
+      }
       .register-card {
         background: #fdfdfd;
         padding: 2rem;
@@ -63,7 +79,31 @@
         box-shadow: 0 4px 12px rgba(0,0,0,0.05);
       }
 
-      form p { margin-bottom: 1rem; }
+      .messages {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 20px;
+      }
+
+      .messages li {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
+
+      .messages li.error {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      .messages li.success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
 
       label { display: block; font-weight: bold; margin-bottom: 5px; color: #495E57; }
 
@@ -77,7 +117,6 @@
         box-sizing: border-box;
       }
 
-      /* زر الإنشاء (الأصفر المعتمد في المشروع) */
       #button {
         background-color: #F4CE14; 
         color: #495E57;
@@ -104,13 +143,17 @@
       }
 
       .login-link a { color: #495E57; font-weight: bold; }
+.figure {
+  width: 100%; 
+  max-width: 500px; 
+}
 
-      /* تنسيق الصورة بناءً على about.html */
-      .figure img {
-        width: 100%;
-        border-radius: 20px;
-        height: auto;
-      }
+.figure img {
+  width: 100%;
+  border-radius: 20px;
+  height: auto;
+  display: block; 
+}
 
       footer {
         background-color: #495E57;
@@ -119,12 +162,23 @@
         padding: 1rem;
         margin-top: 2rem;
       }
+      @media (max-width: 800px) {
+        .footer_caption{
+          font-size: 13px;
+        }
+        .row {
+          gap: 0;
+        }
+        .figure img{
+          display: none;
+        }
+      }
     </style>
   </head>
 
   <body>
     <header>
-      <img src="{% static 'img/logo.png' %}" alt="Little Lemon Logo">
+      <img src="{% static 'img/main_logo_footer.png' %}" alt="AXON Logo">
     </header>
 
     <main>
@@ -136,7 +190,15 @@
               <div class="register-card">
 
                 <h1>Create Account</h1>
-                <p>Join Little Lemon to enjoy a personalized dining experience.</p>
+                <p>Join AXON to enjoy a personalized dining experience.</p>
+
+                {% if messages %}
+                <ul class="messages">
+                  {% for message in messages %}
+                  <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %}
                 
                 <form action="{% url 'register' %}" method="POST">
                     {% csrf_token %}
@@ -157,7 +219,8 @@
                     
                     <p>
                         <label for="password">Password</label>
-                        <input type="password" name="password" id="password" required placeholder="Create a password">
+                        <input type="password" name="password" id="password" required placeholder="Create a strong password">
+                        <small style="color: #666; font-size: 0.8rem;">Minimum 10 characters with numbers and symbols recommended.</small>
                     </p>
                     
                     <input type="submit" id="button" value="Sign Up">
@@ -171,7 +234,7 @@
 
             <div class="column">
               <figure class="figure">
-                <img src="{% static 'img/Mario_and_Adrian.jpg' %}" alt="Mario and Adrian" />
+                <img src="{% static 'img/create_account.png' %}" alt="registeretion!" />
                 <figcaption class="figure-caption" style="text-align: center; margin-top: 15px; font-style: italic;">
                   "Join our family and taste the tradition."
                 </figcaption>
@@ -184,7 +247,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2026 Little Lemon Restaurant. All Rights Reserved.</p>
+      <p class="footer_caption">&copy; 2026 Little Lemon Restaurant. All Rights Reserved.</p>
     </footer>
   </body>
 </html>

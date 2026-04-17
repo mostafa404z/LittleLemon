@@ -1,13 +1,49 @@
 {% load static %}
 <header>
-  <img src="{% static 'img/logo.png' %}" />
+    <nav class="navbar-container">
+        <div class="navbar-left">
+            <a href="{% url 'home' %}" class="logo-wrapper">
+                <img src="{% static 'img/main_logo_footer.png' %}" alt="AXON Logo" class="main-logo">
+            </a>
+            <div class="user-greeting">
+                <span class="welcome-text">WELCOME,</span>
+                <span class="username">{{ user.username|upper }}</span>
+            </div>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="{% url 'home' %}" class="nav-item">Home</a></li>
+            <li><a href="{% url 'about' %}" class="nav-item">About</a></li>
+            <li><a href="{% url 'menu' %}" class="nav-item">Menu</a></li>
+            <li><a href="{% url 'book' %}" class="nav-item">Book</a></li>
+            <li><a href="{% url 'reservations' %}" class="nav-item">Reservations</a></li>
+        </ul>
+
+        <div class="auth-section">
+            <input type="checkbox" id="menu-toggle" class="menu-checkbox">
+            
+            <label for="menu-toggle" class="hamburger-icon">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+
+            <div class="dropdown-menu">
+                <a href="{% url 'home' %}" class="nav-item">Home</a>
+                <a href="{% url 'about' %}" class="nav-item">About</a>
+                <a href="{% url 'menu' %}" class="nav-item">Menu</a>
+                <a href="{% url 'book' %}" class="nav-item">Book</a>
+                <a href="{% url 'reservations' %}" class="nav-item">Reservations</a>
+                <a href="https://github.com/mostafa404z/LittleLemon.git" target="_blank" class="nav-item">GitHub</a>
+                <a href="https://www.linkedin.com/in/mostafa-elhwary-230423335" target="_blank" class="nav-item">LinkedIn</a>
+                <a href="mailto:mostafa.elhwary586@gmail.com" class="nav-item">Contact Me</a>
+
+                <div class="dropdown-divider"></div>
+                <form action="{% url 'logout' %}" method="get">
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+        </div>
+    </nav>
 </header>
-<nav>
-  <ul>
-    <li><a href="{% url 'home' %}">Home</a></li>
-    <li><a href="{% url 'about' %}">About</a></li>
-    <li><a href="{% url 'menu' %}">Menu</a></li>
-    <li><a href="{% url 'book' %}">Book</a></li>
-    <li><a href="{% url 'reservations' %}">Reservations</a></li>
-  </ul>
-</nav>
+

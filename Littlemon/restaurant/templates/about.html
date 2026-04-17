@@ -1,60 +1,89 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<section>
-  <article>
-    <h1>About Us</h1>
-    <!--Begin row-->
-    <div class="row">
-      <!--Begin col-->
-      <div class="column">
-        <p>
-          Based in Chicago, Illinois, Little Lemon is a family owned
-          Mediterranean restaurant, focused on traditional recipes served with a
-          modern twist.
-        </p>
-        <p>
-          The chefs draw inspiration from Italian, Greek, and Turkish culture
-          and have a menu of 12-15 items that they rotate seasonally.
-        </p>
+{% extends 'base.html' %} 
+{% load static %} 
 
-        <p>
-          The restaurant has a rustic and relaxed atmosphere with moderate
-          prices, making it a popular place for a meal any time of the day.
-        </p>
+{% block content %}
 
-        <p>
-          Little Lemon is owned by two Italian brothers, Mario and Adrian, who
-          moved to the United States to pursue their shared dream of owning a
-          restaurant.
-        </p>
+<div class="page-wrapper">
+    <header class="page-header">
+        {% if messages %}
+          <div id="message-container">
+            {% for message in messages %}
+              <div class="alert-message">
+                {{ message }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <span class="badge">EST. 2026</span>
+        <h1>Our Legacy</h1>
+        <p>Merging tradition with the future of Mediterranean dining.</p>
+    </header>
 
-        <p>
-          To craft the menu, Mario relies on family recipes and his experience
-          as a chef in Italy.
-        </p>
+    <section class="split-section">
+        <div class="image-box">
+            <img src="{% static 'img/main_about.jpg' %}" alt="Founders">
+            <div class="floating-caption">Founders Mario & Adrian</div>
+        </div>
+        <div class="content-box">
+            <h2 class="accent-title">Beyond the Recipe</h2>
+            <p>Based in the heart of Chicago, <strong>AXON</strong> is a family-owned venture that redefines Mediterranean classics with a modern twist.</p>
+            <p>Our chefs draw inspiration from the rich heritage of Italy, Greece, and Turkey, rotating 12-15 seasonal items to ensure every visit is a new discovery.</p>
+            
+            <div class="feature-grid">
+                <div class="feat"><strong>12-15</strong> Seasonal Items</div>
+                <div class="feat"><strong>Modern</strong> Mediterranean</div>
+            </div>
+        </div>
+    </section>
 
-        <p>
-          Adrian does all the marketing for the restaurant and led the effort to
-          expand the menu beyond classic Italian to incorporate additional
-          cuisines from the mediterranean region.
-        </p>
-      </div>
-      <!--End col-->
-
-      <!--Begin col-->
-      <div class="column">
-        <figure class="figure">
-          <img
-            src="{% static 'img/mario-and-adrian.jpg' %}"
-            alt="Mario and Adrian"
-          />
-          <figcaption class="figure-caption">
-            Little Lemon owners Mario and Adrian.
-          </figcaption>
-        </figure>
-      </div>
-      <!--End col-->
+    <section class="feedback-section">
+    <div class="container">
+        <div class="feedback-card">
+            <div class="feedback-header">
+                <h2>Have a Suggestion?</h2>
+                <p>Your feedback helps us evolve. Share your thoughts or complaints directly with us.</p>
+            </div>
+            <form method="post" class="axon-form">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="name" placeholder="Your Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" placeholder="example@mail.com" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Message Type</label>
+                    <select name="message_type">
+                        <option value="General Feedback">General Feedback</option>
+                        <option value="Suggestion">Suggestion</option>
+                        <option value="Complaint">Complaint</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Your Message</label>
+                    <textarea class="Suggestion_message" name="message" rows="4" placeholder="How can we improve?"></textarea>
+                </div>
+                <button type="submit" class="about_submit_btn">Send Message</button>
+            </form>
+        </div>
     </div>
-    <!--End row-->
-  </article>
 </section>
+</div>
+<script>
+  // Auto-hide messages
+  window.addEventListener('DOMContentLoaded', (event) => {
+      const messageContainer = document.getElementById('message-container');
+      if (messageContainer) {
+          setTimeout(function() {
+              messageContainer.style.transition = "opacity 0.5s ease";
+              messageContainer.style.opacity = "0";
+              setTimeout(function() { messageContainer.remove(); }, 500); 
+          }, 3000);
+      }
+  });
+</script>
 {% endblock %}

@@ -1,9 +1,230 @@
 {% load static %}
-<footer>
-  <article>
-    <img src="{% static 'img/logo_footer.png' %}" />
-  </article>
-  <article>
-    <p>Copyright Little Lemon</p>
-  </article>
+<footer class="axon-footer">
+    <div class="footer-container">
+        <div class="footer-main">
+            <div class="footer-brand">
+                <img src="{% static 'img/main_logo_footer.png' %}" alt="AXON Logo" class="footer-logo">
+                <p class="tagline">Taste the Tomorrow.</p>
+            </div>
+            
+            <div class="footer-nav-group">
+                <div class="nav-col">
+                    <h4 class="footer-heading">Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'menu' %}">Menu</a></li>
+                        <li><a href="{% url 'book' %}">Book a Table</a></li>
+                    </ul>
+                </div>
+
+                <div class="nav-col">
+                    <h4 class="footer-heading">Connect</h4>
+                    <ul class="footer-links">
+                        <li><a href="https://github.com/mostafa404z/LittleLemon.git" target="_blank">GitHub</a></li>
+                        <li><a href="https://www.linkedin.com/in/mostafa-elhwary-230423335" target="_blank">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="contact-strip">
+                <span class="label">CONTACT ME:</span>
+                <a href="mailto:mostafa.elhwary586@gmail.com" class="email-link">mostafa.elhwary586@gmail.com</a>
+            </div>
+            <div class="legal-strip">
+                <p class="sentence">&copy; 2026 AXON RESTAURANT. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
 </footer>
+<style>
+/* Container and Base Styles */
+.axon-footer {
+    background-color: #495E57; /* Core Axon Green */
+    color: #EDEFEE;
+    padding: 1rem;
+    font-family: 'Karla', sans-serif;
+    margin-top: 5rem;
+    border-top: 4px solid #F4CE14;
+    box-shadow: 5px 5px 10px #495E57;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Main Content Layout */
+.footer-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(237, 239, 238, 0.1);
+}
+
+.footer-brand {
+    max-width: 300px;
+}
+
+.footer-logo {
+    height: 8rem;
+    width: 12rem;
+    filter: brightness(0) invert(1); /* Ensures logo is white */
+}
+
+.tagline {
+    font-size: 0.9rem;
+    letter-spacing: 0.05rem;
+    opacity: 0.8;
+}
+
+/* Navigation Groups */
+.footer-nav-group {
+    display: flex;
+    gap: 4rem;
+}
+
+.footer-heading {
+    color: #F4CE14; /* Gold headings */
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1rem;
+    font-size: 20px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: #EDEFEE;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.footer-links a:hover {
+    color: #F4CE14;
+    opacity: 1;
+    padding-left: 5px;
+}
+
+/* Bottom Bar Styles */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    font-size: 1rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.contact-strip .label {
+    font-weight: 700;
+    margin-right: 0.5rem;
+}
+
+.email-link {
+    color: #F4CE14;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.3s ease;
+}
+
+.email-link:hover {
+    opacity: 0.8;
+}
+
+.legal-strip {
+    opacity: 0.5;
+}
+
+.sentence{
+    font-size: .8rem;
+}
+
+/* Responsive Adjustments Improved for Mobile */
+@media (max-width: 768px) {
+    .axon-footer {
+        padding: 2rem 1rem 1rem 1rem; /* زيادة المسافة العلوية */
+        margin-top: 3rem; /* تقليل الهامش العلوي قليلاً للموبايل */
+        text-align: center;
+    }
+
+    .footer-main {
+        flex-direction: column;
+        align-items: center;
+        gap: 0rem;
+    
+    }
+
+    .footer-brand {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .footer-logo {
+        height: 6rem; /* تصغير اللوجو قليلاً ليناسب الشاشة */
+        width: auto;
+        margin: 0 auto;
+    }
+
+    .footer-nav-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly; /* توزيع الروابط بجانب بعضها */
+        gap: 0;
+    }
+
+    .nav-col {
+        flex: 1; /* جعل العمودين متساويين في المساحة */
+    }
+
+    .footer-heading {
+        font-size: 16px; /* تصغير العنوان قليلاً */
+        margin-bottom: 1rem;
+    }
+
+    .footer-links a {
+        font-size: 0.85rem; /* تصغير الروابط لسهولة العرض */
+    }
+
+    /* تحسين شكل شريط التواصل السفلي */
+    .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        padding-top: 1.5rem;
+    }
+
+    .contact-strip {
+        display: flex;
+        flex-direction: column; /* وضع الايميل تحت كلمة Contact Us */
+        gap: 0.3rem;
+    }
+
+    .email-link {
+        font-size: 0.9rem;
+        word-break: break-all; /* لمنع تمدد الايميل خارج الشاشة */
+    }
+
+    .legal-strip .sentence {
+        font-size: 0.7rem;
+        margin-top: 0.5rem;
+    }
+}
+
+</style>

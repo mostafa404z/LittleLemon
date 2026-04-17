@@ -1,18 +1,23 @@
+
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="en">
   <head>
+        <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'img/main_icon.png' %}"
+    />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Login - Little Lemon</title>
+    <title>Login - AXON</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Karla&family=Markazi+Text:wght@500&display=swap" rel="stylesheet" />
 
     <style>
-      /* الستايل الموحد بناءً على ملفات base.html و about.html */
       body {
         font-family: 'Karla', sans-serif;
         margin: 0;
@@ -23,19 +28,31 @@
         min-height: 100vh;
       }
 
-      /* هيدر بسيط يشبه الموجود في المشروع */
-      header {
-        background-color: #EDEFEE;
-        padding: 10px 2rem;
-        text-align: center;
-        border-bottom: 1px solid #ccc;
+      .login-header {
+          width: 100%;
+          height: 120px; 
+          display: flex;
+          justify-content: center; 
+          align-items: center;     
+          background-color: #EDEFEE;
       }
 
-      header img { height: 40px; }
+      .logo-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+
+      .center-logo {
+          height: 80px; 
+          width: auto;  
+          display: block;
+          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+      }
 
       h1, h2 {
         font-family: 'Markazi Text', serif;
-        color: #495E57; /* اللون الأخضر الخاص بـ Little Lemon */
+        color: #495E57;
         font-size: 2.5rem;
       }
 
@@ -55,7 +72,6 @@
 
       .column { flex: 1; min-width: 320px; }
 
-      /* تنسيق الفورم */
       .login-card {
         background: #fdfdfd;
         padding: 2rem;
@@ -75,8 +91,7 @@
         box-sizing: border-box;
       }
 
-      /* زر تسجيل الدخول (الأصفر المعتمد في المشروع) */
-      #button {
+      button[type="submit"] {
         background-color: #F4CE14; 
         color: #495E57;
         padding: 12px 30px;
@@ -89,7 +104,7 @@
         transition: 0.3s;
       }
 
-      #button:hover {
+      button[type="submit"]:hover {
         background-color: #495E57;
         color: #EDEFEE;
       }
@@ -102,23 +117,21 @@
 
       .extra-links a { color: #495E57; text-decoration: underline; }
 
-      /* تنسيق الصورة */
       .figure img {
         width: 100%;
         border-radius: 20px;
-        box-shadow: 10px 10px 10px #495E57; /* ظل أصفر جمالي */
+        box-shadow: 10px 10px 10px #495E57;
       }
 
       .alert-message {
-        background-color: #495E57; /* اللون الأخضر الخاص بالمطعم */
-        color: #F4CE14;            /* اللون الأصفر للنص */
+        background-color: #495E57;
+        color: #F4CE14;
         padding: 15px;
         border-radius: 8px;
         margin-bottom: 20px;
         text-align: center;
         font-weight: bold;
         border: 1px solid #F4CE14;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       }
 
       footer {
@@ -128,12 +141,22 @@
         padding: 1rem;
         margin-top: 2rem;
       }
+      @media(max-width: 800px){
+        .Welcome_back{
+          margin-top: -2rem;
+        }
+        .footer_caption{
+          font-size: 13px;
+        }
+      }
     </style>
   </head>
 
   <body>
-    <header>
-      <img src="{% static 'img/logo.png' %}" alt="Little Lemon Logo">
+    <header class="login-header">
+        <div class="logo-wrapper">
+            <img src="{% static 'img/main_logo_footer.png' %}" alt="Axon Logo" class="center-logo">
+        </div>
     </header>
 
     <main>
@@ -152,10 +175,11 @@
                     {% endfor %}
                   </div>
                 {% endif %}
-                <h1>Welcome Back</h1>
-                <p>Login to manage your reservations at <strong>Little Lemon</strong>.</p>
                 
-                <form action="{% url 'login' %}" method="post">
+                <h1 class="Welcome_back">Welcome Back</h1>
+                <p>Login to your account to visit <strong>AXON</strong>.</p>
+                
+                <form action="" method="post">
                   {% csrf_token %}
                   <p>
                     <label for="id_username">Username</label>
@@ -166,23 +190,8 @@
                     <input type="password" name="password" id="id_password" required placeholder="Enter your password">
                   </p>
                   
-                  <button type="submit">Get Token</button>                
+                  <button type="submit">Login</button>                
                 </form>
-                <hr>
-
-                {% if display_token %}
-                  <div class="token-box" style="border: 2px solid #495E57; padding: 15px; margin-top: 20px;">
-                      <p>Login Successful! Here is your secure token:</p>
-                      <code>{{ display_token }}</code>
-                  </div>
-                  
-                  <script>
-                      // حفظ التوكن في ذاكرة المتصفح
-                      localStorage.setItem('userToken', "{{ display_token }}");
-                      alert("Success! You can now use this token to access home page data.");
-                  </script>
-                {% endif %}
-
                 <div class="extra-links">
                   <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
                 </div>
@@ -204,20 +213,18 @@
     </main>
 
     <footer>
-      <p>&copy; 2026 Little Lemon Restaurant. All Rights Reserved.</p>
+      <p class="footer_caption">&copy; 2026 AXON Restaurant. All Rights Reserved.</p>
     </footer>
+
     <script>
+      // Auto-hide messages
       window.addEventListener('DOMContentLoaded', (event) => {
           const messageContainer = document.getElementById('message-container');
-          
           if (messageContainer) {
               setTimeout(function() {
                   messageContainer.style.transition = "opacity 0.5s ease";
                   messageContainer.style.opacity = "0";
-                  
-                  setTimeout(function() {
-                      messageContainer.remove();
-                  }, 500); 
+                  setTimeout(function() { messageContainer.remove(); }, 500); 
               }, 3000);
           }
       });
