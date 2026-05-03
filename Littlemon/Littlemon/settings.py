@@ -51,6 +51,11 @@ INSTALLED_APPS = [
     'djoser',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://axon404z.up.railway.app",
+    "https://*.127.0.0.1"
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
